@@ -11,13 +11,34 @@ const links = [
 <nav>
   <div class="wrap bar">
     <a class="brand" href="/">mosouab</a>
-    <div class="links">
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav-links">.menu()</button>
+    <div class="links" id="nav-links">
       {links.map((l) => (
         <a href={l.href}><span class="fn">.{l.name}</span><span class="paren">()</span></a>
       ))}
     </div>
   </div>
 </nav>
+
+<script>
+  const nav = document.querySelector('nav');
+  const btn = document.querySelector('.menu-btn');
+
+  btn?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? '.close()' : '.menu()';
+  });
+
+  // tapping a link (e.g. an anchor on the same page) should close the menu
+  nav?.querySelectorAll('.links a').forEach((a) =>
+    a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      btn?.setAttribute('aria-expanded', 'false');
+      if (btn) btn.textContent = '.menu()';
+    })
+  );
+</script>
 
 <style>
   nav {
@@ -46,6 +67,18 @@ const links = [
     text-decoration: none;
   }
 
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg);
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
   .links {
     display: flex;
     gap: 14px;
@@ -68,18 +101,26 @@ const links = [
 
   @media (max-width: 560px) {
     .bar {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-      padding-top: 10px;
-      padding-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu-btn {
+      display: inline-block;
     }
 
     .links {
-      flex-wrap: wrap;
+      display: none;
+      width: 100%;
+      flex-direction: column;
       gap: 10px;
-      row-gap: 2px;
-      font-size: 11px;
+      font-size: 12.5px;
+      margin-top: 12px;
+      padding: 12px 0 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    nav.open .links {
+      display: flex;
     }
   }
 </style>
