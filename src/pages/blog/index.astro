@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Base title="Notes — Mohamed Souab" description="Notes on drones, edge AI, and industrial automation.">
+  <div class="wrap page">
+    <div class="label">Notes</div>
+    <p class="intro">
+      Occasional write-ups on drones, edge AI, PLCs, and whatever ate my weekend.
+    </p>
+    <ul class="posts">
+      {posts.map((p) => (
+        <li>
+          <div>
+            <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+            <p>{p.data.description}</p>
+          </div>
+          <span>{p.data.date.toISOString().slice(0, 10)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding: 48px 24px 72px;
+    min-height: 50vh;
+  }
+
+  .intro {
+    color: var(--soft);
+    font-size: 13px;
+    margin: 14px 0 0;
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 26px 0 0;
+  }
+
+  .posts li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .posts li p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 6px 0 0;
+    max-width: 480px;
+  }
+
+  .posts span {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+</style>

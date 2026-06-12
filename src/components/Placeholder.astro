@@ -1,0 +1,39 @@
+---
+interface Props {
+  label: string;
+  height?: number;
+}
+
+const { label, height = 220 } = Astro.props;
+---
+
+<figure class="ph" style={`height:${height}px`}>
+  <span>[ {label} — coming soon ]</span>
+</figure>
+
+<style>
+  .ph {
+    margin: 22px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-dark);
+    border-radius: var(--radius);
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 7px,
+      #16161606 7px,
+      #16161606 14px
+    );
+  }
+
+  .ph span {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+</style>

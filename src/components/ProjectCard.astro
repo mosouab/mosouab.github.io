@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, tags, mediaLabel } = project.data;
+---
+
+<a class="card" href={`/projects/${project.id}/`}>
+  <div class="media" aria-hidden="true">
+    <span>[ {mediaLabel} ]</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <div class="tags">{tags.join(' · ')}</div>
+  <div class="more">read the write-up →</div>
+</a>
+
+<style>
+  .card {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 18px;
+    text-decoration: none;
+    color: var(--fg);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card:hover {
+    background: var(--surface);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 var(--border-dark);
+  }
+
+  .media {
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-dark);
+    border-radius: var(--radius);
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 7px,
+      #16161606 7px,
+      #16161606 14px
+    );
+    margin-bottom: 14px;
+  }
+
+  .media span {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  h3 {
+    font-size: 14.5px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 12px;
+    color: var(--soft);
+    margin: 8px 0 0;
+    line-height: 1.65;
+  }
+
+  .tags {
+    margin-top: 12px;
+    font-size: 10.5px;
+    color: var(--accent);
+  }
+
+  .more {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .card:hover .more {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.superpowers/
+npm-debug.log*
+
+# source PDFs kept locally (public/cv.pdf is the published copy)
+cv ms.pdf
+cv (3).pdf

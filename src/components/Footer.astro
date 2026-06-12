@@ -1,0 +1,101 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap grid">
+    <div>
+      <div class="brand">mosouab</div>
+      <p class="blurb">Robotics &amp; embedded AI student building things that fly, sense, and occasionally behave.</p>
+    </div>
+    <div>
+      <div class="label">Sitemap</div>
+      <ul>
+        <li><a href="/#about">about</a></li>
+        <li><a href="/#projects">projects</a></li>
+        <li><a href="/blog">blog</a></li>
+        <li><a href="/#contact">contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="label">Connect</div>
+      <ul>
+        <li><a href="https://github.com/mosouab">Github</a></li>
+        <li><a href="https://linkedin.com/in/mosouab">LinkedIn</a></li>
+        <li><a href="mailto:mohamed.souab2@gmail.com">Email</a></li>
+        <li><a href="/cv.pdf">CV.pdf ↓</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap base">
+    <span>© {year} mohamed souab</span>
+    <span>currently @ paris-saclay · évry, fr</span>
+  </div>
+  <div class="wrap credit">
+    <span>design borrowed with admiration from <a href="https://stormix.dev">stormix.dev</a>, flipped to the light side</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: 48px 0 28px;
+    font-size: 12px;
+    color: var(--soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-variation-settings: 'ROND' 100;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--ink);
+  }
+
+  .blurb {
+    max-width: 280px;
+    color: var(--muted);
+    margin: 10px 0 0;
+    font-size: 11.5px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+  }
+
+  li {
+    margin: 4px 0;
+  }
+
+  .base {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    margin-top: 36px;
+    padding-top: 16px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .credit {
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .credit a {
+    color: var(--muted);
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    .base { flex-direction: column; gap: 4px; }
+  }
+</style>

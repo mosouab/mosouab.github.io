@@ -1,0 +1,44 @@
+---
+title: ML Digital Twin of a Drone
+summary: Teaching machine learning models to imitate a quadrotor's flight dynamics — LSTM vs Neural ODE vs XGBoost, trained on flight data collected in simulation through ROS 2.
+tags: [PyTorch, Neural ODE, LSTM, XGBoost, ROS 2, Gazebo]
+repo: https://github.com/mosouab/drone_ml_digital_twin
+order: 2
+mediaLabel: prediction vs ground truth plots
+---
+
+import Placeholder from '../../components/Placeholder.astro';
+
+A digital twin is only as good as its dynamics model. Instead of deriving a
+quadrotor's equations of motion by hand, this project asks: can a machine learning
+model *learn* the dynamics from flight data alone — and which kind of model does it
+best?
+
+<Placeholder label="plots: predicted vs actual trajectories" />
+
+## Collecting the data
+
+A ROS 2 node flies a simulated quadrotor in Gazebo and logs synchronized state and
+command pairs: position, attitude (converted from quaternions), linear velocities,
+and the velocity commands that produced them. The result is a clean time-series
+dataset of "what the drone was doing" and "what it was told to do" — the raw
+material for learning dynamics.
+
+## Three models, one question
+
+Each model gets the same job: given the current state and command, predict the next
+state.
+
+- **LSTM** — the classic sequence model; learns temporal patterns in flight behaviour.
+- **Neural ODE** — models the dynamics as a continuous-time differential equation learned by a neural network, which is conceptually the closest to how physics actually works.
+- **XGBoost** — gradient-boosted trees as a strong, fast tabular baseline that ignores time entirely.
+
+<Placeholder label="figure: model comparison results" height={180} />
+
+## Why it matters
+
+A learned dynamics model gives you a simulator that runs orders of magnitude faster
+than full physics, which opens the door to rapid control prototyping,
+model-predictive control, and anomaly detection ("the drone isn't responding the way
+the twin says it should"). It also pairs naturally with my work on
+[EdgeSense](/projects/edgesense/) — same philosophy, different machine.

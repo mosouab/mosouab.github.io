@@ -1,0 +1,354 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const skills = [
+  'Python', 'C/C++', 'ROS 2', 'PyTorch', 'OpenCV', 'PX4 / MAVLink',
+  'Gazebo', 'TIA Portal / WinCC', 'STM32 / Arduino', 'Raspberry Pi',
+  'FPGA / VHDL', 'MATLAB / Simulink', 'Docker', 'Linux',
+];
+
+const timeline = [
+  {
+    when: '2025 — 2027',
+    what: "Master's in EEA — intelligent automotive & aeronautic systems",
+    where: 'Université Paris-Saclay',
+    note: 'Control theory, embedded AI, and everything in between. M2 as an apprenticeship (alternance).',
+  },
+  {
+    when: 'apr — jun 2024',
+    what: 'Automation engineering intern',
+    where: 'Groupe Bel',
+    note: 'Migrated Siemens S7-300 PLCs to S7-1500 with minimal production downtime, built a real-time maintenance-KPI tracker (OEE, MTBF, MTTR…), and web-based HMIs on Siemens Unified Panels.',
+  },
+  {
+    when: '2024 — 2025',
+    what: 'Licence in electronics, automation & signal processing',
+    where: "Université d'Évry Paris-Saclay",
+    note: null,
+  },
+  {
+    when: '2022 — 2024',
+    what: 'DUT in industrial computing & automated systems',
+    where: 'EST Kénitra, Université Ibn Tofail',
+    note: 'Where the PLC obsession started.',
+  },
+];
+---
+
+<Base title="Mohamed Souab — robotics & embedded AI">
+  <!-- hero -->
+  <header class="wrap hero">
+    <p class="hello rise">Hey, I'm 👋</p>
+    <h1 class="rise d1">Mohamed Souab</h1>
+    <p class="tag rise d2">
+      Robotics &amp; embedded AI · Master's student @ Paris-Saclay · Évry, France
+    </p>
+    <p class="pitch rise d3">
+      I make machines a bit smarter than they need to be — drones that fly themselves
+      without GPS, and factory equipment that predicts its own breakdowns. By day I
+      program industrial PLCs; by night I argue with ROS 2. Currently looking for an
+      internship in intelligent industrial automation &amp; Industry 4.0.
+    </p>
+    <div class="actions rise d4">
+      <a class="btn" href="/#projects">see projects →</a>
+      <a class="btn ghost" href="/cv.pdf">download cv</a>
+    </div>
+    <p class="elsewhere rise d4">
+      <a href="https://github.com/mosouab">Github</a> ·
+      <a href="https://linkedin.com/in/mosouab">LinkedIn</a> ·
+      <a href="mailto:mohamed.souab2@gmail.com">Email</a>
+    </p>
+  </header>
+
+  <!-- about -->
+  <section id="about">
+    <div class="wrap">
+      <div class="label">About me</div>
+      <div class="about-grid">
+        <div class="photo" aria-hidden="true"><span>[ photo ]</span></div>
+        <div>
+          <p>
+            I started with industrial PLCs in Kénitra, and at some point the factory
+            floor stopped being enough — so now I also teach neural networks to run on
+            tiny edge devices and drones to land on targets without GPS.
+          </p>
+          <p>
+            In 2024 I spent a few months at <strong>Groupe Bel</strong> (the Laughing
+            Cow people) migrating Siemens PLCs and building real-time maintenance
+            dashboards. These days I'm at <strong>Paris-Saclay</strong> studying
+            automatic control &amp; intelligent systems, and spending my free time on
+            the projects below. I like systems you can touch — and that occasionally
+            fly away.
+          </p>
+        </div>
+      </div>
+      <p class="reach">This is what I reach for most days:</p>
+      <ul class="chips">
+        {skills.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- experience / education -->
+  <section id="path">
+    <div class="wrap">
+      <div class="label">The path so far</div>
+      <ol class="timeline">
+        {timeline.map((t) => (
+          <li>
+            <div class="when">{t.when}</div>
+            <div>
+              <div class="what">{t.what}</div>
+              <div class="where">{t.where}</div>
+              {t.note && <p class="note">{t.note}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- projects -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="label">Projects</div>
+      <p class="section-intro">
+        Three things I've built and can talk about for hours. Click one for the
+        write-up.
+      </p>
+      <div class="cards">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- notes -->
+  <section id="notes">
+    <div class="wrap">
+      <div class="head-row">
+        <div class="label">Recent notes</div>
+        <a class="view-all" href="/blog">view all →</a>
+      </div>
+      <ul class="posts">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+            <span>{p.data.date.toISOString().slice(0, 10)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="label">Get in touch</div>
+      <p class="section-intro">
+        Internship offer, project idea, or you just want to talk drones — drop me a
+        line. I answer fast.
+      </p>
+      <a class="btn" href="mailto:mohamed.souab2@gmail.com">say_hello()</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 72px 24px 64px;
+    border-bottom: 1px solid var(--border);
+    max-width: var(--w);
+  }
+
+  .hello {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-variation-settings: 'ROND' 100;
+    font-weight: 900;
+    font-size: clamp(38px, 8vw, 58px);
+    margin: 10px 0 0;
+    letter-spacing: 0.01em;
+  }
+
+  .tag {
+    color: var(--soft);
+    font-size: 13px;
+    margin: 16px 0 0;
+  }
+
+  .pitch {
+    color: var(--soft);
+    max-width: 560px;
+    margin: 16px 0 0;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .elsewhere {
+    margin: 22px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 22px;
+    margin-top: 18px;
+    align-items: start;
+  }
+
+  .photo {
+    height: 110px;
+    border: 1px dashed var(--border-dark);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 7px, #16161606 7px, #16161606 14px
+    );
+  }
+
+  .photo span {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  #about p {
+    color: var(--soft);
+    margin: 0 0 12px;
+  }
+
+  .reach {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+  }
+
+  .timeline li {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .timeline li:last-child {
+    border-bottom: none;
+  }
+
+  .when {
+    font-size: 11px;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+
+  .what {
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .where {
+    font-size: 11.5px;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--soft);
+    margin: 8px 0 0;
+  }
+
+  .section-intro {
+    color: var(--soft);
+    font-size: 13px;
+    margin: 14px 0 0;
+    max-width: 520px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .head-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .view-all {
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+  }
+
+  .posts li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .posts li:last-child {
+    border-bottom: none;
+  }
+
+  .posts span {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  #contact .btn {
+    margin-top: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .photo { width: 110px; }
+    .timeline li { grid-template-columns: 1fr; gap: 4px; }
+    .actions { flex-wrap: wrap; }
+  }
+</style>

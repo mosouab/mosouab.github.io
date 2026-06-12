@@ -1,0 +1,21 @@
+{
+  "name": "mosouab-site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "qr": "node scripts/make-qr.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.0",
+    "@fontsource/geist-mono": "^5.0.0",
+    "@fontsource-variable/doto": "^5.0.0",
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4"
+  }
+}
