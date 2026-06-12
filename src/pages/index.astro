@@ -57,8 +57,8 @@ const timeline = [
       I make machines a bit smarter than they need to be — drones that fly themselves
       without GPS, and factory equipment that predicts its own breakdowns. By day I
       program industrial PLCs; by night I argue with ROS 2. Currently looking for a
-      6-month internship or a 1-year apprenticeship (alternance) — anywhere autonomous
-      systems, embedded AI, or smart automation are involved.
+      1-year apprenticeship (alternance) — anywhere autonomous systems, embedded AI,
+      or smart automation are involved.
     </p>
     <div class="actions rise d4">
       <a class="btn" href="/#projects">see projects →</a>
@@ -76,7 +76,14 @@ const timeline = [
     <div class="wrap">
       <div class="label">About me</div>
       <div class="about-grid">
-        <div class="photo" aria-hidden="true"><span>[ photo ]</span></div>
+        <img
+          class="photo"
+          src="/profile.jpg"
+          alt="Mohamed Souab by the sea at sunset"
+          width="110"
+          height="110"
+          loading="lazy"
+        />
         <div>
           <p>
             I started with industrial PLCs in Kénitra, and at some point the factory
@@ -219,20 +226,12 @@ const timeline = [
   }
 
   .photo {
+    width: 110px;
     height: 110px;
-    border: 1px dashed var(--border-dark);
+    object-fit: cover;
+    object-position: 50% 62%;
+    border: 1px solid var(--border-dark);
     border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: repeating-linear-gradient(
-      45deg, transparent, transparent 7px, #16161606 7px, #16161606 14px
-    );
-  }
-
-  .photo span {
-    font-size: 10px;
-    color: var(--muted);
   }
 
   #about p {
@@ -348,7 +347,6 @@ const timeline = [
 
   @media (max-width: 560px) {
     .about-grid { grid-template-columns: 1fr; }
-    .photo { width: 110px; }
     .timeline li { grid-template-columns: 1fr; gap: 4px; }
     .actions { flex-wrap: wrap; }
   }
