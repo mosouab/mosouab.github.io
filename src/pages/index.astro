@@ -2,6 +2,14 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import AsciiDonut from '../components/AsciiDonut.astro';
+
+const socials = [
+  { name: 'Github', href: 'https://github.com/mosouab' },
+  { name: 'LinkedIn', href: 'https://linkedin.com/in/mosouab' },
+  { name: 'Email', href: 'mailto:mohamed.souab2@gmail.com' },
+  { name: 'CV.pdf ↓', href: '/cv.pdf' },
+];
 
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order
@@ -47,28 +55,38 @@ const timeline = [
 
 <Base title="Mohamed Souab — robotics, autonomous systems & embedded AI">
   <!-- hero -->
-  <header class="wrap hero">
-    <p class="hello rise">Hey, I'm 👋</p>
-    <h1 class="rise d1">Mohamed Souab</h1>
-    <p class="tag rise d2">
-      Robotics &amp; embedded AI · M2 Autonomous Mobile Systems @ Paris-Saclay · Évry, France
-    </p>
-    <p class="pitch rise d3">
-      I make machines a bit smarter than they need to be — drones that fly themselves
-      without GPS, and factory equipment that predicts its own breakdowns. By day I
-      program industrial PLCs; by night I argue with ROS 2. Currently looking for a
-      1-year apprenticeship (alternance) — anywhere autonomous systems, embedded AI,
-      or smart automation are involved.
-    </p>
-    <div class="actions rise d4">
-      <a class="btn" href="/#projects">see projects →</a>
-      <a class="btn ghost" href="/cv.pdf">download cv</a>
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="hello rise">Hey, I'm 👋</p>
+        <h1 class="rise d1">Mohamed Souab</h1>
+        <p class="tag rise d2">
+          Robotics &amp; embedded AI · M2 Autonomous Mobile Systems @ Paris-Saclay · Évry, France
+        </p>
+        <p class="pitch rise d3">
+          I make machines a bit smarter than they need to be — drones that fly
+          themselves without GPS, and factory equipment that predicts its own
+          breakdowns. By day I program industrial PLCs; by night I argue with ROS 2.
+          Currently looking for a 1-year apprenticeship (alternance) — anywhere
+          autonomous systems, embedded AI, or smart automation are involved.
+        </p>
+        <div class="actions rise d4">
+          <a class="btn" href="/#projects">see projects →</a>
+          <a class="btn ghost" href="/cv.pdf">download cv</a>
+        </div>
+        <div class="social rise d4">
+          <span class="social-label">find me elsewhere</span>
+          <div class="social-row">
+            {socials.map((s) => (
+              <a class="social-btn" href={s.href}>{s.name}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="hero-art rise d3">
+        <AsciiDonut />
+      </div>
     </div>
-    <p class="elsewhere rise d4">
-      <a href="https://github.com/mosouab">Github</a> ·
-      <a href="https://linkedin.com/in/mosouab">LinkedIn</a> ·
-      <a href="mailto:mohamed.souab2@gmail.com">Email</a>
-    </p>
   </header>
 
   <!-- about -->
@@ -76,34 +94,47 @@ const timeline = [
     <div class="wrap">
       <div class="label">About me</div>
       <div class="about-grid">
-        <img
-          class="photo"
-          src="/profile.jpg"
-          alt="Mohamed Souab by the sea at sunset"
-          width="110"
-          height="110"
-          loading="lazy"
-        />
-        <div>
+        <div class="about-bio">
           <p>
-            I started with industrial PLCs in Kénitra, and at some point the factory
-            floor stopped being enough — so now I also teach neural networks to run on
-            tiny edge devices and drones to land on targets without GPS.
+            My path has been a straight line through automation: a DUT in industrial
+            computing &amp; automated systems in Kénitra, a Licence in electronics
+            &amp; automatic control in Évry, and now a Master's at
+            <strong>Paris-Saclay</strong> specializing in
+            <strong>autonomous mobile systems</strong> — the full perception →
+            decision → action chain that lets ground vehicles, drones, and mobile
+            robots operate on their own.
           </p>
           <p>
-            In 2024 I spent a few months at <strong>Groupe Bel</strong> (the Laughing
-            Cow people) migrating Siemens PLCs and building real-time maintenance
-            dashboards. These days I'm at <strong>Paris-Saclay</strong> studying
-            automatic control &amp; intelligent systems, and spending my free time on
-            the projects below. I like systems you can touch — and that occasionally
+            That's also where I want to work: robotics and autonomous systems,
+            applying AI to real-world problems instead of benchmarks — machines that
+            perceive, decide, and act in the physical world. An automation internship
+            at <strong>Groupe Bel</strong> gave me a taste of what that means in
+            production, and the projects below are what it looks like when I get to
+            pick the problem. I like systems you can touch — and that occasionally
             fly away.
           </p>
+          <p class="reach">This is what I reach for most days:</p>
+          <ul class="chips">
+            {skills.map((s) => <li>{s}</li>)}
+          </ul>
         </div>
+        <aside class="facts-card">
+          <img
+            class="photo"
+            src="/profile.jpg"
+            alt="Mohamed Souab by the sea at sunset"
+            width="240"
+            height="240"
+            loading="lazy"
+          />
+          <dl class="facts">
+            <div><dt>Status</dt><dd>open to a 1-year alternance</dd></div>
+            <div><dt>Focus</dt><dd>autonomous systems · embedded AI</dd></div>
+            <div><dt>Based in</dt><dd>Évry, France</dd></div>
+            <div><dt>Languages</dt><dd>Arabic (native) · French C2 · English C1</dd></div>
+          </dl>
+        </aside>
       </div>
-      <p class="reach">This is what I reach for most days:</p>
-      <ul class="chips">
-        {skills.map((s) => <li>{s}</li>)}
-      </ul>
     </div>
   </section>
 
@@ -173,9 +204,15 @@ const timeline = [
 
 <style>
   .hero {
-    padding: 72px 24px 64px;
+    padding: 64px 0;
     border-bottom: 1px solid var(--border);
-    max-width: var(--w);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 40px;
+    align-items: center;
   }
 
   .hello {
@@ -188,7 +225,7 @@ const timeline = [
     font-family: var(--font-display);
     font-variation-settings: 'ROND' 100;
     font-weight: 900;
-    font-size: clamp(38px, 8vw, 58px);
+    font-size: clamp(40px, 6vw, 64px);
     margin: 10px 0 0;
     letter-spacing: 0.01em;
   }
@@ -211,36 +248,117 @@ const timeline = [
     margin-top: 26px;
   }
 
-  .elsewhere {
-    margin: 22px 0 0;
-    font-size: 12px;
+  .social {
+    margin-top: 28px;
+  }
+
+  .social-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .social-label::before {
+    content: '// ';
+  }
+
+  .social-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .social-btn {
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 6px 12px;
+    font-size: 11.5px;
+    text-decoration: none;
+    color: var(--fg);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+
+  .social-btn:hover {
+    background: var(--surface);
+    border-color: var(--ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 0 var(--border-dark);
+  }
+
+  .hero-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 260px;
   }
 
   .about-grid {
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 22px;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
     margin-top: 18px;
     align-items: start;
   }
 
-  .photo {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-    object-position: 50% 62%;
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius);
+  .about-bio p {
+    color: var(--soft);
+    margin: 0 0 14px;
   }
 
-  #about p {
-    color: var(--soft);
-    margin: 0 0 12px;
+  .facts-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 16px;
+  }
+
+  .photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: 50% 38%;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    display: block;
+  }
+
+  .facts {
+    margin: 16px 0 0;
+  }
+
+  .facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .facts > div:last-child {
+    border-bottom: none;
+  }
+
+  .facts dt {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .facts dd {
+    margin: 0;
+    font-size: 11.5px;
+    color: var(--fg);
+    text-align: right;
   }
 
   .reach {
-    margin-top: 24px;
+    margin-top: 26px !important;
     font-size: 12px;
     color: var(--muted);
   }
@@ -341,11 +459,22 @@ const timeline = [
     margin-top: 20px;
   }
 
-  @media (max-width: 700px) {
-    .cards { grid-template-columns: 1fr; }
+  @media (max-width: 920px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .hero-art {
+      min-height: 0;
+      order: -1;
+    }
+    .cards {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 620px) {
+    .cards { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; }
     .timeline li { grid-template-columns: 1fr; gap: 4px; }
     .actions { flex-wrap: wrap; }

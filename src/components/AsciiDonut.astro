@@ -1,0 +1,92 @@
+---
+// A spinning ASCII torus — the famous donut.c, ported to the browser.
+// Decorative: hidden from screen readers, frozen for reduced-motion users.
+---
+
+<pre class="donut" aria-hidden="true"></pre>
+
+<script>
+  const pre = document.querySelector<HTMLPreElement>('.donut');
+  if (pre) {
+    const width = 50;
+    const height = 24;
+    const chars = '.,-~:;=!*#$@';
+    const R1 = 1, R2 = 2, K2 = 5;
+    const K1x = (width * K2 * 3) / (8 * (R1 + R2));
+    const K1y = K1x * 0.5;
+    let A = 0.6, B = 1.2;
+
+    function frame() {
+      const b = new Array(width * height).fill(' ');
+      const zb = new Array(width * height).fill(0);
+      const cA = Math.cos(A), sA = Math.sin(A);
+      const cB = Math.cos(B), sB = Math.sin(B);
+      for (let t = 0; t < 6.283; t += 0.07) {
+        const ct = Math.cos(t), st = Math.sin(t);
+        for (let p = 0; p < 6.283; p += 0.02) {
+          const cp = Math.cos(p), sp = Math.sin(p);
+          const cx = R2 + R1 * ct, cy = R1 * st;
+          const x = cx * (cB * cp + sA * sB * sp) - cy * cA * sB;
+          const y = cx * (sB * cp - sA * cB * sp) + cy * cA * cB;
+          const z = K2 + cA * cx * sp + cy * sA;
+          const ooz = 1 / z;
+          const xp = Math.floor(width / 2 + K1x * ooz * x);
+          const yp = Math.floor(height / 2 - K1y * ooz * y);
+          const L = cp * ct * sB - cA * ct * sp - sA * st + cB * (cA * st - ct * sA * sp);
+          if (xp >= 0 && xp < width && yp >= 0 && yp < height) {
+            const i = xp + yp * width;
+            if (ooz > zb[i]) {
+              zb[i] = ooz;
+              const l = Math.floor(L * 8);
+              b[i] = chars[l > 0 ? Math.min(l, 11) : 0];
+            }
+          }
+        }
+      }
+      let out = '';
+      for (let r = 0; r < height; r++) out += b.slice(r * width, (r + 1) * width).join('') + '\n';
+      pre.textContent = out;
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    frame();
+
+    if (!reduce) {
+      let visible = true;
+      let last = 0;
+      new IntersectionObserver(
+        ([e]) => { visible = e.isIntersecting; },
+        { threshold: 0 }
+      ).observe(pre);
+
+      function loop(now: number) {
+        if (visible && now - last > 50) {
+          A += 0.045;
+          B += 0.022;
+          frame();
+          last = now;
+        }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
+  }
+</script>
+
+<style>
+  .donut {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    overflow: visible;
+    font-family: var(--font-mono);
+    font-size: clamp(7px, 1.15vw, 11px);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    white-space: pre;
+    user-select: none;
+    text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+</style>
