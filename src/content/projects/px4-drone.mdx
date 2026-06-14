@@ -1,6 +1,6 @@
 ---
 title: Autonomous PX4 Drone
-summary: A quadrotor that flies missions, navigates without GPS using visual SLAM, and lands itself on a marker — built on ROS 2, PX4, and a Raspberry Pi strapped to a Holybro X500.
+summary: A quadrotor that flies missions, navigates without GPS using visual SLAM, and lands itself on a marker. Built on ROS 2, PX4, and a Raspberry Pi mounted on a Holybro X500.
 tags: [ROS 2, PX4, SLAM, MAVLink, OpenCV, Raspberry Pi]
 repo: https://github.com/mosouab/drone_px4_slam
 order: 1
@@ -9,10 +9,10 @@ mediaLabel: drone flight footage
 
 import Placeholder from '../../components/Placeholder.astro';
 
-GPS is great until you go indoors, under a bridge, or anywhere it matters. This
-project is a complete autonomy stack for a quadrotor that keeps flying when GPS
-doesn't: visual-inertial odometry, 3D mapping, and precision landing — all running
-on a Raspberry Pi 4 bolted to the airframe.
+GPS works fine until you go indoors or under a bridge. This project is a full
+autonomy stack that keeps a quadrotor flying when GPS isn't available: visual-inertial
+odometry, 3D mapping, and precision landing, all running on a Raspberry Pi 4 mounted
+on the airframe.
 
 <Placeholder label="video: GPS-denied flight + precision landing" />
 
@@ -21,31 +21,31 @@ on a Raspberry Pi 4 bolted to the airframe.
 Five layers, from motors to mission:
 
 1. **PX4 (Pixhawk)** — low-level stabilization and flight control, in SITL or on the real airframe.
-2. **ROS 2 Jazzy** — orchestrates every perception and navigation node.
-3. **MAVROS** — the bridge between MAVLink and ROS 2 topics/services.
+2. **ROS 2 Jazzy** — orchestrates the perception and navigation nodes.
+3. **MAVROS** — the bridge between MAVLink and ROS 2 topics and services.
 4. **VIO + RTAB-Map** — local pose estimation with loop-closure drift correction, fed by an Intel RealSense D455 depth camera and fused into PX4's EKF2.
-5. **Precision landing** — ArUco marker detection (OpenCV), velocity servoing toward the target, then an automatic `AUTO.LAND` trigger.
+5. **Precision landing** — ArUco marker detection in OpenCV, velocity servoing toward the target, then an automatic `AUTO.LAND` trigger.
 
-The mission layer exists twice on purpose: once in **C against raw MAVLink** (to
-understand what's actually on the wire) and once in **Python with MAVSDK** (to get
-things done). Waypoint missions, return-to-launch, takeoff — all validated in Gazebo
-SITL before touching real propellers.
+I wrote the mission layer twice on purpose: once in C directly against MAVLink, to
+understand what's actually on the wire, and once in Python with MAVSDK for everyday
+use. Waypoint missions, return-to-launch, and takeoff were all tested in Gazebo SITL
+before I ran them on real hardware.
 
 <Placeholder label="diagram: system architecture" height={180} />
 
 ## The hardware
 
-Holybro X500 V2 frame, Pixhawk flight controller, Raspberry Pi 4 as companion
-computer, Intel RealSense D455 for depth and tracking. The whole software stack is
-containerized — one `docker compose up` brings up PX4 SITL, Gazebo, MAVROS, RTAB-Map,
-and the camera bridges in a tmux session, on Ubuntu or WSL2.
+Holybro X500 V2 frame, Pixhawk flight controller, Raspberry Pi 4 as the companion
+computer, and an Intel RealSense D455 for depth and tracking. The software stack is
+containerized, so a single `docker compose up` brings up PX4 SITL, Gazebo, MAVROS,
+RTAB-Map, and the camera bridges in one tmux session, on Ubuntu or WSL2.
 
 <Placeholder label="photos: the drone, build details" height={180} />
 
-## What I learned the hard way
+## What was hard
 
-Getting RTAB-Map odometry trusted by EKF2 is 10% configuration and 90% reading
-PX4 documentation at 2am. CPU budget on a Pi 4 is real: the perception pipeline had
-to be profiled and trimmed until SLAM, marker detection, and MAVROS could share four
-cores without starving each other. And a drone that lands itself on a 20 cm marker
-is deeply satisfying to watch.
+Getting EKF2 to trust the RTAB-Map odometry took a lot of tuning and even more time
+in the PX4 documentation. CPU budget on a Pi 4 is tight, so I had to profile and trim
+the perception pipeline until SLAM, marker detection, and MAVROS could share four
+cores without starving each other. Watching the drone land itself on a 20 cm marker
+made it worth the effort.

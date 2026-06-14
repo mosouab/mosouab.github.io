@@ -1,6 +1,6 @@
 ---
 title: EdgeSense
-summary: Predictive maintenance that runs entirely on the machine it's watching — unsupervised anomaly detection, a 0–100 health score, and remaining-useful-life estimation, no cloud and no labeled failures required.
+summary: Predictive maintenance that runs entirely on the machine it's watching. Unsupervised anomaly detection, a 0–100 health score, and remaining-useful-life estimation, with no cloud and no labeled failures required.
 tags: [PyTorch, 1D-CNN, USAD, Edge AI, RUL, Industry 4.0]
 repo: https://github.com/mosouab/EdgeSense
 order: 3
@@ -9,27 +9,28 @@ mediaLabel: health score dashboard
 
 import Placeholder from '../../components/Placeholder.astro';
 
-Unplanned downtime is expensive, and the standard fixes all have the same three
-problems: cloud monitoring streams sensitive sensor data off-site, supervised models
-need labeled failure examples that real factories don't have, and most off-the-shelf
-tools only know one failure mode. EdgeSense is my attempt to fix all three at once.
+Unplanned downtime is expensive, and the usual fixes all run into the same three
+problems. Cloud monitoring streams sensitive sensor data off-site. Supervised models
+need labeled failure examples that real factories don't have. And most off-the-shelf
+tools only know one failure mode. EdgeSense is my attempt to deal with all three at
+once.
 
 <Placeholder label="screenshot: anomaly score & health timeline" />
 
 ## How it works
 
-The core is a **USAD-style 1D-CNN autoencoder**: a shared encoder and two decoders
-that play a minimax game during training. It learns what *healthy* looks like from a
-couple of weeks of normal sensor data — no failure labels needed — then flags
-anything that drifts outside that envelope. A small MLP head on the latent space
-adds remaining-useful-life regression for components that degrade gradually.
+The core is a USAD-style 1D-CNN autoencoder: a shared encoder and two decoders that
+play a minimax game during training. It learns what *healthy* looks like from a couple
+of weeks of normal sensor data, with no failure labels needed, then flags anything
+that drifts outside that envelope. A small MLP head on the latent space adds
+remaining-useful-life regression for components that wear down gradually.
 
-Everything runs locally on an edge device next to the asset. One model architecture,
+Everything runs locally on an edge device next to the machine. One architecture gives
 three outputs an operator can actually use:
 
-1. **Anomaly score** per window of sensor data,
-2. **Health score from 0 to 100%** — one number, readable at a glance,
-3. **Remaining useful life** in cycles, where degradation is gradual.
+1. **Anomaly score** per window of sensor data.
+2. **Health score from 0 to 100%** — one number you can read at a glance.
+3. **Remaining useful life** in cycles, for components that degrade gradually.
 
 ## Validated on three very different machines
 
@@ -39,16 +40,15 @@ three outputs an operator can actually use:
 | Hydraulic test rig | Multi-component faults | AUC up to 1.00 |
 | NASA C-MAPSS turbofans | Gradual degradation (RUL) | RMSE ≈ 15 cycles, correlation 0.93 |
 
-My favourite result isn't in the table: when auditing the top "false positives" on
-the metro data, two of them turned out to be **real, undocumented air-leak events**
-missing from the maintenance log. The model found failures the humans hadn't
-recorded.
+My favorite result isn't in the table. When I audited the top "false positives" on the
+metro data, two of them turned out to be real, undocumented air-leak events that were
+missing from the maintenance log. The model caught failures the humans hadn't recorded.
 
 <Placeholder label="figure: USAD architecture diagram" height={180} />
 
 ## The on-site recalibration trick
 
-Training in the lab and deploying in the field never goes smoothly. EdgeSense uses
-two weeks of on-site data to recalibrate its alert threshold to the specific asset —
-which roughly **doubled F1** (0.37 → 0.69) on the metro compressors compared to
-deploying the lab threshold blindly. Cheap to do, huge payoff.
+Training in the lab and deploying in the field never lines up cleanly. EdgeSense uses
+two weeks of on-site data to recalibrate its alert threshold to the specific machine,
+which roughly doubled F1 on the metro compressors (0.37 to 0.69) compared to deploying
+the lab threshold as-is. It's cheap to do and made a big difference.
