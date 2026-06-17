@@ -12,8 +12,7 @@ AI that drive them. I wanted a single link that covers all of it: something a re
 can open from a QR code, and something another engineer can actually read into.
 
 The site runs on [Astro](https://astro.build) with plain CSS. No framework, no
-tracking, just markdown files and fast HTML. The design is borrowed from
-[stormix.dev](https://stormix.dev) and flipped to a light theme.
+tracking, just markdown files and fast HTML.
 
 When I have something worth sharing, I'll write it here: notes on ROS 2 and PX4,
 running neural networks on hardware that probably shouldn't run them, and whatever
