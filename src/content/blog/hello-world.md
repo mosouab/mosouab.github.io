@@ -8,8 +8,8 @@ I finally put together a personal site. Here's what it is and why I made it.
 
 I'm a Master's student in autonomous mobile systems at Paris-Saclay. I work on robots
 and autonomous machines: drones, ground robots, and the embedded systems and applied
-AI that drive them. I wanted a single link that covers all of it: something a recruiter
-can open from a QR code, and something another engineer can actually read into.
+AI that drive them. I wanted a single place that covers all of it, somewhere I can
+point people to and another engineer can actually read into.
 
 The site runs on [Astro](https://astro.build) with plain CSS. No framework, no
 tracking, just markdown files and fast HTML.
