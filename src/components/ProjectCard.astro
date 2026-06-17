@@ -6,13 +6,17 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, tags, mediaLabel } = project.data;
+const { title, summary, tags, mediaLabel, thumb } = project.data;
 ---
 
 <a class="card" href={`/projects/${project.id}/`}>
-  <div class="media" aria-hidden="true">
-    <span>[ {mediaLabel} ]</span>
-  </div>
+  {thumb ? (
+    <img class="thumb" src={thumb} alt={`${title} preview`} loading="lazy" />
+  ) : (
+    <div class="media" aria-hidden="true">
+      <span>[ {mediaLabel} ]</span>
+    </div>
+  )}
   <h3>{title}</h3>
   <p>{summary}</p>
   <div class="tags">{tags.join(' · ')}</div>
@@ -57,6 +61,18 @@ const { title, summary, tags, mediaLabel } = project.data;
   .media span {
     font-size: 10px;
     color: var(--muted);
+  }
+
+  .thumb {
+    width: 100%;
+    height: 96px;
+    object-fit: cover;
+    object-position: 50% 30%;
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    margin-bottom: 14px;
   }
 
   h3 {

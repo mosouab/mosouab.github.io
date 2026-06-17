@@ -5,16 +5,21 @@ tags: [PyTorch, Neural ODE, LSTM, XGBoost, ROS 2, Gazebo]
 repo: https://github.com/mosouab/drone_ml_digital_twin
 order: 2
 mediaLabel: prediction vs ground truth plots
+thumb: /projects/ml-digital-twin/xgboost-scatter.png
 ---
 
-import Placeholder from '../../components/Placeholder.astro';
+import Figure from '../../components/Figure.astro';
 
 A digital twin is only as good as its dynamics model. Instead of deriving a
 quadrotor's equations of motion by hand, I wanted to see whether a machine learning
 model could learn those dynamics from flight data alone, and which type of model
 does it best.
 
-<Placeholder label="plots: predicted vs actual trajectories" />
+<Figure
+  src="/projects/ml-digital-twin/lstm-trajectories.png"
+  alt="LSTM predicted vs actual state trajectories"
+  caption="LSTM predictions against the true state across several held-out test flights."
+/>
 
 ## Collecting the data
 
@@ -33,7 +38,11 @@ state.
 - **Neural ODE** — models the dynamics as a continuous-time differential equation learned by a neural network, which is conceptually closest to how the physics actually works.
 - **XGBoost** — gradient-boosted trees as a fast tabular baseline that ignores time entirely.
 
-<Placeholder label="figure: model comparison results" height={180} />
+<Figure
+  src="/projects/ml-digital-twin/xgboost-scatter.png"
+  alt="XGBoost predicted vs true scatter plot"
+  caption="The XGBoost baseline: predicted vs. true values across the state variables."
+/>
 
 ## Why it matters
 

@@ -5,9 +5,10 @@ tags: [PyTorch, 1D-CNN, USAD, Edge AI, RUL, Industry 4.0]
 repo: https://github.com/mosouab/EdgeSense
 order: 3
 mediaLabel: health score dashboard
+thumb: /projects/edgesense/health.png
 ---
 
-import Placeholder from '../../components/Placeholder.astro';
+import Figure from '../../components/Figure.astro';
 
 Unplanned downtime is expensive, and the usual fixes all run into the same three
 problems. Cloud monitoring streams sensitive sensor data off-site. Supervised models
@@ -15,7 +16,11 @@ need labeled failure examples that real factories don't have. And most off-the-s
 tools only know one failure mode. EdgeSense is my attempt to deal with all three at
 once.
 
-<Placeholder label="screenshot: anomaly score & health timeline" />
+<Figure
+  src="/projects/edgesense/anomaly-timeline.png"
+  alt="Anomaly score over time on the metro compressor data"
+  caption="Anomaly score across months of Metro do Porto compressor data — the spikes line up with real air-leak events."
+/>
 
 ## How it works
 
@@ -44,7 +49,11 @@ My favorite result isn't in the table. When I audited the top "false positives" 
 metro data, two of them turned out to be real, undocumented air-leak events that were
 missing from the maintenance log. The model caught failures the humans hadn't recorded.
 
-<Placeholder label="figure: USAD architecture diagram" height={180} />
+<Figure
+  src="/projects/edgesense/architecture.png"
+  alt="USAD-style 1D-CNN autoencoder architecture"
+  caption="The model: a shared 1D-CNN encoder, two decoders trained adversarially, and a small RUL head on the latent space."
+/>
 
 ## The on-site recalibration trick
 

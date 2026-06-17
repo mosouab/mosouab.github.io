@@ -5,16 +5,21 @@ tags: [ROS 2, PX4, SLAM, MAVLink, OpenCV, Raspberry Pi]
 repo: https://github.com/mosouab/drone_px4_slam
 order: 1
 mediaLabel: drone flight footage
+thumb: /projects/px4-drone/sim.jpg
 ---
 
-import Placeholder from '../../components/Placeholder.astro';
+import Figure from '../../components/Figure.astro';
 
 GPS works fine until you go indoors or under a bridge. This project is a full
 autonomy stack that keeps a quadrotor flying when GPS isn't available: visual-inertial
 odometry, 3D mapping, and precision landing, all running on a Raspberry Pi 4 mounted
 on the airframe.
 
-<Placeholder label="video: GPS-denied flight + precision landing" />
+<Figure
+  src="/projects/px4-drone/sim.jpg"
+  alt="Gazebo simulation with depth camera, SLAM map, and ArUco detection"
+  caption="In simulation: the depth camera feed, the RTAB-Map point cloud, and ArUco marker detection running together."
+/>
 
 ## The stack
 
@@ -31,7 +36,11 @@ understand what's actually on the wire, and once in Python with MAVSDK for every
 use. Waypoint missions, return-to-launch, and takeoff were all tested in Gazebo SITL
 before I ran them on real hardware.
 
-<Placeholder label="diagram: system architecture" height={180} />
+<Figure
+  src="/projects/px4-drone/architecture.png"
+  alt="System architecture diagram"
+  caption="The full architecture, from PX4 and MAVROS up through ROS 2 and RTAB-Map on the Raspberry Pi."
+/>
 
 ## The hardware
 
@@ -40,7 +49,11 @@ computer, and an Intel RealSense D455 for depth and tracking. The software stack
 containerized, so a single `docker compose up` brings up PX4 SITL, Gazebo, MAVROS,
 RTAB-Map, and the camera bridges in one tmux session, on Ubuntu or WSL2.
 
-<Placeholder label="photos: the drone, build details" height={180} />
+<Figure
+  src="/projects/px4-drone/stack.png"
+  alt="The full stack running in a tmux session"
+  caption="Everything up in one tmux session: PX4 SITL, Gazebo, MAVROS, RTAB-Map, and the camera bridges."
+/>
 
 ## What was hard
 
