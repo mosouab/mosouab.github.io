@@ -1,0 +1,38 @@
+---
+title: ROS 2 Mobile Robot
+summary: A wheeled robot that maps a room in Gazebo as it drives, then navigates to goals on its own. ROS 2 Jazzy with slam_toolbox and Nav2, kept deliberately small.
+tags: [ROS 2, SLAM, Nav2, Gazebo, slam_toolbox, Python]
+repo: https://github.com/mosouab/ros2_mobile_robot
+order: 2
+mediaLabel: SLAM map in Gazebo + RViz
+thumb: /projects/ros2-mobile-robot/slam.png
+---
+
+import Figure from '../../components/Figure.astro';
+
+A wheeled robot drives around a room in Gazebo and builds a map as it goes. You
+steer with the arrow keys, watch the map fill in, and once there's enough of it you
+can click a goal in RViz and let the robot drive there on its own. It all runs on
+ROS 2 Jazzy.
+
+<Figure
+  src="/projects/ros2-mobile-robot/slam.png"
+  alt="Gazebo simulation on the left, RViz map on the right"
+  caption="Gazebo on the left, the map building up in RViz on the right as the robot drives around."
+/>
+
+## What's inside
+
+- a simple walled-room world in Gazebo
+- a Yahboom ROSMASTER X3 with a 2D lidar
+- slam_toolbox handling the mapping
+- Nav2 for navigation
+- a small Python node for driving with the arrow keys
+
+## Kept deliberately small
+
+The whole project is a handful of launch files, a couple of config files, and one
+short Python node. No C++. One command brings up Gazebo, SLAM, Nav2, and RViz
+together, and a second terminal runs the teleop node so you can drive. The lidar
+picks up the walls, the map grows, and when you click a 2D goal pose in RViz, Nav2
+plans a path and follows it.
