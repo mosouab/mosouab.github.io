@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="repo · mosouab" description="Links, notes and files to grab from another computer." noindex>
+  <section class="wrap repo">
+    <p class="label">repo</p>
+    <h1>repo</h1>
+    <p class="lead">Links, notes and files I need on another computer. Public: anyone with this address can see them.</p>
+    <div id="repo-tools" class="repo-tools"></div>
+    <p id="repo-status" class="repo-status" role="status" aria-live="polite"></p>
+    <div id="drops"><p class="drops-empty">Loading…</p></div>
+  </section>
+</Base>
+
+<script>
+  import '../scripts/repo/main';
+</script>
+
+<style is:global>
+  .repo h1 { font-family: var(--font-display); font-variation-settings: 'ROND' 100; font-weight: 900; font-size: 44px; margin: 6px 0 8px; }
+  .repo .lead { color: var(--soft); max-width: 62ch; margin: 0 0 20px; }
+  .repo-tools { margin-bottom: 8px; }
+  .repo-status { min-height: 1.4em; font-size: 12px; margin: 6px 0; color: var(--accent); }
+  .repo-status.error { color: #c0362c; }
+  .repo .btn.small { padding: 5px 11px; font-size: 11.5px; }
+  .repo-form { display: flex; flex-direction: column; gap: 10px; max-width: 620px; background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--radius); padding: 14px; }
+  .repo-form.inline { flex-direction: row; flex-wrap: wrap; align-items: center; max-width: 520px; }
+  .repo-form.inline input { flex: 1 1 200px; }
+  .repo-form input[type='text'], .repo-form input[type='password'], .repo-form textarea {
+    font: inherit; font-size: 13px; color: var(--fg); background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--radius); padding: 7px 9px; width: 100%;
+  }
+  .repo-form textarea { resize: vertical; }
+  .repo-form-actions { display: flex; gap: 8px; }
+  .repo .seg { display: inline-flex; align-self: flex-start; border: 1px solid var(--border-dark); border-radius: var(--radius); }
+  .repo .seg-btn { background: none; border: none; font: inherit; font-size: 12px; padding: 5px 12px; cursor: pointer; color: var(--soft); }
+  .repo .seg-btn.active { background: var(--ink); color: var(--bg); }
+  .drops { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .drop { background: var(--surface); border: 1px solid var(--border-dark); border-radius: var(--radius); padding: 12px 14px; }
+  .drop-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .drop-kind { color: var(--muted); font-size: 11.5px; }
+  .drop-title { color: var(--ink); font-weight: 500; overflow-wrap: anywhere; }
+  .drop-date { margin-left: auto; color: var(--muted); font-size: 11px; }
+  .drop-url { display: block; margin-top: 4px; font-size: 12.5px; color: var(--soft); overflow-wrap: anywhere; }
+  .drop-text { margin: 8px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow: auto; }
+  .drop-meta { display: block; margin-top: 4px; font-size: 12px; color: var(--soft); }
+  .drop-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .drop .delete.armed { border-color: #c0362c; color: #c0362c; }
+  .drops-empty { color: var(--muted); font-size: 12.5px; }
+  @media (max-width: 560px) {
+    .repo-form input[type='text'], .repo-form input[type='password'], .repo-form textarea { font-size: 16px; }
+    .drop-date { margin-left: 0; }
+  }
+</style>

@@ -7,15 +7,22 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "qr": "node scripts/make-qr.mjs"
+    "qr": "node scripts/make-qr.mjs",
+    "test": "vitest run",
+    "check:drops": "node --env-file=.env --import tsx scripts/check-drops.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
-    "@fontsource/geist-mono": "^5.0.0",
     "@fontsource-variable/doto": "^5.0.0",
+    "@fontsource/geist-mono": "^5.0.0",
+    "@supabase/supabase-js": "^2.119.2",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "qrcode": "^1.5.4"
+    "@types/node": "^26.6.6",
+    "happy-dom": "^21.0.4",
+    "qrcode": "^1.5.4",
+    "tsx": "^4.23.15",
+    "vitest": "^3.2.7"
   }
 }

@@ -13,6 +13,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # /repo talks to the M2proj Supabase project; without these the page just says "Not configured yet".
+      PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
+      PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
+      PUBLIC_ADMIN_EMAIL: ${{ vars.PUBLIC_ADMIN_EMAIL }}
     steps:
       - uses: actions/checkout@v4
       - uses: withastro/action@v3
