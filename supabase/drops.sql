@@ -35,3 +35,6 @@ create policy "drops files insert" on storage.objects for insert to authenticate
   with check (bucket_id = 'drops' and public.is_admin());
 create policy "drops files delete" on storage.objects for delete to authenticated
   using (bucket_id = 'drops' and public.is_admin());
+-- Storage only deletes objects the caller can also select, so the admin needs this to remove files.
+create policy "drops files select" on storage.objects for select to authenticated
+  using (bucket_id = 'drops' and public.is_admin());

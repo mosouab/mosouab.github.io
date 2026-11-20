@@ -89,9 +89,19 @@ export function fileUrl(db: SupabaseClient, drop: Drop): string {
   return db.storage.from(BUCKET).getPublicUrl(drop.storage_path, { download: fileNameFromPath(drop.storage_path) }).data.publicUrl;
 }
 
+/** File first: the bucket is public, so a failed removal must never leave a file online without its entry. */
 export async function deleteDrop(db: SupabaseClient, drop: Drop): Promise<void> {
+  if (drop.storage_path) {
+    const path = drop.storage_path;
+    const { data: removed, error: removeError } = await db.storage.from(BUCKET).remove([path]);
+    if (removeError) throw removeError;
+    if (!removed || removed.length === 0) {
+      // Nothing removed: either it is already gone (fine) or we are not allowed (stop, keep the entry).
+      const { data: still } = await db.storage.from(BUCKET).list('', { search: path });
+      if (still?.some((o) => o.name === path)) throw new AppError('not-allowed');
+    }
+  }
   const { data, error } = await db.from('drops').delete().eq('id', drop.id).select('id');
   if (error) throw error;
   requireRows(data);
-  if (drop.storage_path) await db.storage.from(BUCKET).remove([drop.storage_path]);
 }
